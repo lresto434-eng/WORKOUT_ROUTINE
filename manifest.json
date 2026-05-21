@@ -1,6 +1,6 @@
 {
-  "name": "Workout Tracker",
-  "short_name": "Workout",
+  "name": "WORKOUT TRACKER",
+  "short_name": "WORKOUT TRACKER",
   "description": "Personal workout tracker",
   "start_url": "/WORKOUT_ROUTINE/",
   "scope": "/WORKOUT_ROUTINE/",
