@@ -1,10 +1,10 @@
 const CACHE = 'workout-v1';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/app.js',
-  '/manifest.json'
+  '/WORKOUT_ROUTINE/',
+  '/WORKOUT_ROUTINE/index.html',
+  '/WORKOUT_ROUTINE/style.css',
+  '/WORKOUT_ROUTINE/app.js',
+  '/WORKOUT_ROUTINE/manifest.json'
 ];
 
 self.addEventListener('install', e => {
