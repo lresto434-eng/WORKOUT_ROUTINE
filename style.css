@@ -367,10 +367,14 @@ input, select, button { font-family: 'DM Sans', sans-serif; }
    ════════════════════════════════════════════════════════════ */
 .log-inputs {
   display: grid;                            /* GRID: activates grid layout */
-  grid-template-columns: 1fr 1fr 1fr auto;  /* GRID: 3 equal flexible columns + 1 auto (button) */
+  grid-template-columns: 1fr 1fr 1fr;       /* GRID: 3 equal columns for inputs */
   gap: 6px;                                 /* GRID: 6px gap between all cells */
-  align-items: end;    
+  align-items: end;
   align-content: center;                     /* GRID: all items sit at the bottom of their row */
+}
+
+.log-inputs .log-btn {
+  grid-column: 1 / -1;                      /* span full width */
 }
 
 .inp-group label {
