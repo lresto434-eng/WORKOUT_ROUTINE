@@ -1,0 +1,710 @@
+/*
+  ╔═══════════════════════════════════════════════════════════╗
+  ║        WORKOUT TRACKER — CSS GRID STUDY GUIDE            ║
+  ╠═══════════════════════════════════════════════════════════╣
+  ║  Three grids in this file — each teaches something new:  ║
+  ║                                                           ║
+  ║  GRID 1 → .week           (~line 130)                    ║
+  ║    repeat(7, 1fr) — 7 equal columns, Mon through Sun     ║
+  ║                                                           ║
+  ║  GRID 2 → .log-inputs     (~line 265)                    ║
+  ║    1fr 1fr 1fr auto — 3 equal + 1 hug-content column    ║
+  ║                                                           ║
+  ║  GRID 3 → .stat-grid      (~line 335)                    ║
+  ║    auto-fill + minmax() — responsive, no media queries   ║
+  ║                                                           ║
+  ║  Every grid property has a  GRID: ...  comment next to it.║
+  ╚═══════════════════════════════════════════════════════════╝
+*/
+
+/* ─────────────────────────────────────
+   VARIABLES
+   ───────────────────────────────────── */
+:root {
+  --dark:   #0e0e0e;
+  --card:   #1a1a1a;
+  --card2:  #202020;
+  --border: #272727;
+  --light:  #f0ede6;
+  --muted:  #666;
+
+  --red:    #c0392b;
+  --red-l:  #e8d5b0;
+  --green:  #c8f04a;
+  --back:   #b8540a;
+  --back-l: #ffcc80;
+  --legs:   #1a6b3a;
+  --legs-l: #a5d6a7;
+  --core:   #1a5f7a;
+  --core-l: #80cbc4;
+  --tri:    #d4860a;
+  --tri-l:  #ffd180;
+}
+
+/* ─────────────────────────────────────
+   RESET & BASE
+   ───────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--dark);
+  color: var(--light);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* .bb = Bebas Neue — used for big numbers and the main title */
+.bb { font-family: 'Bebas Neue', sans-serif; }
+
+.red { color: var(--red); }
+
+input, select, button { font-family: 'DM Sans', sans-serif; }
+
+/* ─────────────────────────────────────
+   HEADER
+   ───────────────────────────────────── */
+.hdr {
+  padding: 28px 20px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hdr h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 10vw, 72px);  /* clamp(min, preferred, max) — fluid font size */
+  line-height: .9;
+  margin-bottom: 16px;
+}
+
+.hdr-stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.stat-num {
+  font-size: 22px;
+}
+
+/* ─────────────────────────────────────
+   LABELS & PILLS
+   ───────────────────────────────────── */
+.pill {
+  background: var(--red);
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  font-weight: 500;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.lbl {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.sl {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+
+/* ════════════════════════════════════════════════════════════
+   GRID 1: WEEK STRIP
+   ════════════════════════════════════════════════════════════
+   CONCEPT: repeat(N, 1fr)
+
+   repeat(7, 1fr) creates 7 columns of equal width.
+   The "fr" unit means "fraction of available space."
+   So each day gets exactly 1/7th of the total width.
+
+   This is the same as writing:
+   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+
+   But repeat() is shorter and easier to read.
+   ════════════════════════════════════════════════════════════ */
+.week {
+  display: grid;                            /* GRID: activates grid layout */
+  grid-template-columns: repeat(7,1fr); /* GRID: 7 equal columns, one per day */
+  border-bottom: 1px solid var(--border);
+}
+
+.wd {
+  padding: 10px 4px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+
+.wd:last-child { border-right: none; }
+
+.wd.today { background: rgba(255,255,255,0.03); }
+
+.wdn {
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.wdb {
+  font-size: 8px;
+  padding: 2px 3px;
+  border-radius: 2px;
+  white-space: pre-line;
+  line-height: 1.3;
+}
+
+/* The color bar at the bottom of each day cell */
+.wdbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+}
+
+/* Day background colors */
+.chest-bg { background: #c0392b22; color: var(--red-l); }
+.back-bg   { background: #b8540a22; color: var(--back-l); }
+.legs-bg   { background: #1a6b3a22; color: var(--legs-l); }
+.core-bg   { background: #1a5f7a22; color: var(--core-l); }
+.rest-bg   { background: var(--card); color: var(--muted); }
+
+/* ─────────────────────────────────────
+   STICKY NAV
+   ───────────────────────────────────── */
+.nav {
+  background: #111;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav::-webkit-scrollbar { display: none; }
+
+.ntab {
+  padding: 14px 16px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  user-select: none;
+  flex-shrink: 0;
+  transition: color .2s, border-color .2s;
+}
+
+.ntab.active {
+  color: var(--green);
+  border-bottom-color: var(--green);
+}
+
+/* ─────────────────────────────────────
+   PAGES
+   ───────────────────────────────────── */
+.page { display: none; padding: 20px; }
+.page.active { display: block; }
+
+/* ─────────────────────────────────────
+   WORKOUT CARDS
+   ───────────────────────────────────── */
+.wcard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.wheader {
+  padding: 14px 16px 14px 22px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+/* The colored left-edge bar */
+.wbar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.wbody {
+  display: none;
+  border-top: 1px solid var(--border);
+}
+
+.wbody.open { display: block; }
+
+.wheader-meta {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.day-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.workout-name {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 2px 0;
+}
+
+.workout-focus {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sv {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* ─────────────────────────────────────
+   EXERCISE SECTIONS
+   ───────────────────────────────────── */
+.ex-section {
+  padding: 14px 16px 4px 20px;
+}
+
+.slbl {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 12px 0 8px;
+}
+
+.tri-label { color: var(--tri-l); }
+
+.ex-row {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  margin-bottom: 6px;
+  padding: 12px 14px;
+}
+
+.ex-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.ex-name {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.ex-tag {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+.ex-meta {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* ════════════════════════════════════════════════════════════
+   GRID 2: LOG INPUTS
+   ════════════════════════════════════════════════════════════
+   CONCEPT: Mixing fr and auto column widths
+
+   grid-template-columns: 1fr 1fr 1fr auto
+
+   The first three columns (weight, reps, date) share the
+   available space equally — each gets 1fr.
+
+   The last column (the LOG button) is set to "auto" which
+   means it only takes up as much space as its content needs.
+   It won't grow or shrink — it just hugs the button text.
+
+   Rule of thumb:
+     fr    = "fill the available space"
+     auto  = "only as wide as the content"
+   ════════════════════════════════════════════════════════════ */
+.log-inputs {
+  display: grid;                            /* GRID: activates grid layout */
+  grid-template-columns: 1fr 1fr 1fr auto;  /* GRID: 3 equal flexible columns + 1 auto (button) */
+  gap: 6px;                                 /* GRID: 6px gap between all cells */
+  align-items: end;    
+  align-content: center;                     /* GRID: all items sit at the bottom of their row */
+}
+
+.inp-group label {
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.inp-group input {
+  width: 100%;
+  background: #111;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--light);
+  padding: 8px 30px;
+  font-size: 14px;
+}
+
+.inp-group input:focus {
+  outline: none;
+  border-color: var(--green);
+}
+
+.log-btn {
+  background: var(--green);
+  color: #0e0e0e;
+  border: none;
+  border-radius: 3px;
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  
+  
+}
+
+.log-btn:active { opacity: .8; }
+
+/* ─────────────────────────────────────
+   HISTORY INSIDE EXERCISE CARD
+   ───────────────────────────────────── */
+.history-box {
+  margin-top: 10px;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.hist-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  color: #aaa;
+}
+
+.hist-entry:last-child { border-bottom: none; }
+
+.hist-vals {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  color: var(--light);
+}
+
+.hist-date {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.hist-pr {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.del-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 6px;
+}
+
+.del-btn:hover { color: var(--red); }
+
+/* ─────────────────────────────────────
+   BODY WEIGHT LOG
+   ───────────────────────────────────── */
+.bw-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+
+.bw-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+/* kg / lbs toggle */
+.unit-toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.unit-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+
+.unit-btn.active {
+  background: var(--green);
+  color: #0e0e0e;
+  font-weight: 500;
+}
+
+/* Reuse .log-inputs grid but only 2 inputs + button */
+.bw-inputs {
+  grid-template-columns: 1fr 1fr auto;  /* GRID: 2 equal columns + auto button */
+}
+
+/* History list */
+.bw-history {
+  margin-top: 12px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.bw-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.bw-entry:last-child { border-bottom: none; }
+
+.bw-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: var(--green);
+  line-height: 1;
+}
+
+.bw-date {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.bw-change {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.bw-change--up   { color: #ff6b6b; background: rgba(255,107,107,0.12); }
+.bw-change--down { color: var(--green); background: rgba(200,240,74,0.12); }
+.bw-change--same { color: var(--muted); }
+
+/* Graph */
+.bw-graph {
+  width: 100%;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 14px;
+}
+
+.bw-graph svg {
+  width: 100%;
+  height: 160px;
+  display: block;
+  overflow: visible;
+}
+
+.bw-graph-empty {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 3px;
+  margin-bottom: 14px;
+}
+
+/* ─────────────────────────────────────
+   RITUAL BOX
+   ───────────────────────────────────── */
+.ritual {
+  background: #181818;
+  border-left: 3px solid var(--red-l);
+  padding: 10px 14px;
+  margin: 12px 16px 0 20px;
+  border-radius: 0 3px 3px 0;
+  font-size: 12px;
+  color: #bbb;
+  line-height: 1.8;
+}
+
+.ritual-title {
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ════════════════════════════════════════════════════════════
+   GRID 3: STAT GRID (Progress page)
+   ════════════════════════════════════════════════════════════
+   CONCEPT: auto-fill + minmax() — responsive with no media queries
+
+   repeat(auto-fill, minmax(140px, 1fr))
+
+   auto-fill: create as many columns as will fit
+   minmax(140px, 1fr): each column is at least 140px,
+                       but can grow to fill remaining space
+
+   Result: on a wide screen you get 4+ stat boxes in a row.
+   On a narrow screen they automatically wrap to fewer columns.
+   No @media queries needed at all.
+
+   Difference from auto-fit:
+     auto-fill = keeps empty ghost columns (can leave gaps)
+     auto-fit  = collapses empty columns (items stretch to fill)
+   ════════════════════════════════════════════════════════════ */
+.stat-grid {
+  display: grid;                                         /* GRID: activates grid */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* GRID: responsive columns */
+  gap: 8px;                                              /* GRID: spacing between stat boxes */
+  margin-bottom: 20px;
+}
+
+.stat-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 14px 16px;
+}
+
+.stat-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--green);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-desc {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ─────────────────────────────────────
+   PROGRESS & HISTORY PAGES
+   ───────────────────────────────────── */
+.pr-list {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 14px 18px;
+}
+
+.pr-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.pr-item:last-child { border-bottom: none; }
+
+.pr-name { color: #aaa; }
+
+.pr-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  color: var(--green);
+}
+
+.empty-msg {
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  padding: 20px;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.clear-btn {
+  background: none;
+  border: 1px solid var(--red);
+  color: var(--red);
+  padding: 6px 14px;
+  border-radius: 3px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.last-logged {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 8px;
+`}

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Angel — Workout Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Workout" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="pill">Phase 1 · Weeks 1–6</div>
+    <h1 class="bb">Workout<br><span class="red">Tracker</span></h1>
+    <div class="hdr-stats">
+      <div>
+        <div class="bb stat-num" id="totalSessions">0</div>
+        <div class="sl">Sessions Logged</div>
+      </div>
+      <div>
+        <div class="bb stat-num" id="totalPRs">0</div>
+        <div class="sl">Personal Records</div>
+      </div>
+      <div>
+        <div class="bb stat-num" id="lastSession">—</div>
+        <div class="sl">Last Session</div>
+      </div>
+    </div>
+  </div>
+
+  <!--
+    ═══════════════════════════════════════
+    GRID 1: WEEK STRIP
+    ═══════════════════════════════════════
+    grid-template-columns: repeat(7, 1fr)
+    7 equal columns — one per day of the week.
+    repeat(7, 1fr) is shorthand for writing
+    1fr 1fr 1fr 1fr 1fr 1fr 1fr manually.
+    ═══════════════════════════════════════
+  -->
+  <div class="week">
+    <div class="wd" data-day="monday">
+      <div class="wdn">Mon</div>
+      <div class="wdb chest-bg">Chest<br>Day 1</div>
+      <div class="wdbar" style="background:var(--red)"></div>
+    </div>
+    <div class="wd" data-day="tuesday">
+      <div class="wdn">Tue</div>
+      <div class="wdb back-bg">Back +<br>Biceps</div>
+      <div class="wdbar" style="background:var(--back)"></div>
+    </div>
+    <div class="wd" data-day="wednesday">
+      <div class="wdn">Wed</div>
+      <div class="wdb legs-bg">Legs</div>
+      <div class="wdbar" style="background:var(--legs)"></div>
+    </div>
+    <div class="wd" data-day="thursday">
+      <div class="wdn">Thu</div>
+      <div class="wdb chest-bg">Chest<br>Day 2</div>
+      <div class="wdbar" style="background:var(--red)"></div>
+    </div>
+    <div class="wd" data-day="friday">
+      <div class="wdn">Fri</div>
+      <div class="wdb core-bg">Abs &<br>Core</div>
+      <div class="wdbar" style="background:var(--core)"></div>
+    </div>
+    <div class="wd" data-day="saturday">
+      <div class="wdn">Sat</div>
+      <div class="wdb rest-bg">Rest</div>
+    </div>
+    <div class="wd" data-day="sunday">
+      <div class="wdn">Sun</div>
+      <div class="wdb rest-bg">Prep</div>
+    </div>
+  </div>
+
+  <!-- STICKY NAV TABS -->
+  <div class="nav">
+    <div class="ntab active" data-page="workouts">Workouts</div>
+    <div class="ntab" data-page="progress">Progress</div>
+    <div class="ntab" data-page="history">History</div>
+  </div>
+
+  <!-- ── WORKOUTS PAGE ── -->
+  <div id="page-workouts" class="page active">
+
+    <!-- CHEST DAY 1 -->
+    <div class="wcard">
+      <div class="wheader" data-target="c1">
+        <div class="wbar" style="background:var(--red)"></div>
+        <div>
+          <div class="day-label">Monday · Phase 1</div>
+          <div class="workout-name">Chest Activation</div>
+          <div class="workout-focus" style="color:var(--red-l)">High Reps · Mind-Muscle · Reactivation</div>
+        </div>
+        <div class="wheader-meta">
+          <div><div class="sv">3</div><div class="sl">Sets</div></div>
+          <div><div class="sv">15–20</div><div class="sl">Reps</div></div>
+        </div>
+      </div>
+      <div id="c1" class="wbody">
+        <div class="ritual">
+          <strong class="ritual-title" style="color:var(--red-l)">Pre-Set Ritual</strong><br>
+          · Massage right pec — 60 seconds<br>
+          · Manual contraction — press left hand on right pec, flex without weight<br>
+          · 10 slow arm circles each side
+        </div>
+        <div class="ex-section">
+          <div class="slbl">Unilateral First</div>
+          <div id="exs-c1"></div>
+          <div class="slbl">Bilateral Finish</div>
+          <div id="exs-c1b"></div>
+          <div class="slbl tri-label">Triceps — High Reps</div>
+          <div id="exs-c1t"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BACK + BICEPS -->
+    <div class="wcard">
+      <div class="wheader" data-target="bk">
+        <div class="wbar" style="background:var(--back)"></div>
+        <div>
+          <div class="day-label">Tuesday · Phase 1</div>
+          <div class="workout-name">Back + Biceps</div>
+          <div class="workout-focus" style="color:var(--back-l)">Width · Thickness · Pull Strength</div>
+        </div>
+        <div class="wheader-meta">
+          <div><div class="sv">3–4</div><div class="sl">Sets</div></div>
+          <div><div class="sv">8–15</div><div class="sl">Reps</div></div>
+        </div>
+      </div>
+      <div id="bk" class="wbody">
+        <div class="ritual" style="border-left-color:var(--back-l)">
+          <strong class="ritual-title" style="color:var(--back-l)">Warm-Up</strong><br>
+          · Face pulls — 2 light sets of 15 to warm rotator cuff<br>
+          · Scapular retractions — feel your lats before loading them<br>
+          · Right side awareness — shoulder may compensate on pulling movements
+        </div>
+        <div class="ex-section">
+          <div class="slbl">Back — Width</div>
+          <div id="exs-bkw"></div>
+          <div class="slbl">Back — Thickness</div>
+          <div id="exs-bkt"></div>
+          <div class="slbl" style="color:#ce93d8">Biceps</div>
+          <div id="exs-bi"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEGS -->
+    <div class="wcard">
+      <div class="wheader" data-target="lg">
+        <div class="wbar" style="background:var(--legs)"></div>
+        <div>
+          <div class="day-label">Wednesday · Phase 1</div>
+          <div class="workout-name">Legs</div>
+          <div class="workout-focus" style="color:var(--legs-l)">Strength · Power · Functional Movement</div>
+        </div>
+        <div class="wheader-meta">
+          <div><div class="sv">3–4</div><div class="sl">Sets</div></div>
+          <div><div class="sv">6–15</div><div class="sl">Reps</div></div>
+        </div>
+      </div>
+      <div id="lg" class="wbody">
+        <div class="ritual" style="border-left-color:var(--legs-l)">
+          <strong class="ritual-title" style="color:var(--legs-l)">Warm-Up</strong><br>
+          · 5 min walk or bike — get blood moving<br>
+          · 10 bodyweight squats — slow and controlled<br>
+          · 10 leg swings each side — open the hips
+        </div>
+        <div class="ex-section">
+          <div class="slbl">Compound — Power Base</div>
+          <div id="exs-lgc"></div>
+          <div class="slbl">Isolation & Accessory</div>
+          <div id="exs-lgi"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHEST DAY 2 -->
+    <div class="wcard">
+      <div class="wheader" data-target="c2">
+        <div class="wbar" style="background:linear-gradient(180deg,var(--red) 50%,var(--tri-l) 100%)"></div>
+        <div>
+          <div class="day-label">Thursday · Phase 1</div>
+          <div class="workout-name">Chest Strength + Triceps</div>
+          <div class="workout-focus" style="color:var(--tri-l)">Heavier Load · Bilateral · Push Power</div>
+        </div>
+        <div class="wheader-meta">
+          <div><div class="sv">3–4</div><div class="sl">Sets</div></div>
+          <div><div class="sv">8–12</div><div class="sl">Reps</div></div>
+        </div>
+      </div>
+      <div id="c2" class="wbody">
+        <div class="ritual">
+          <strong class="ritual-title" style="color:var(--red-l)">Pre-Set Ritual</strong><br>
+          · Massage right pec — 60 seconds<br>
+          · Manual contraction — press left hand on right pec, flex without weight<br>
+          · 10 slow arm circles each side
+        </div>
+        <div class="ex-section">
+          <div class="slbl">Chest — Strength Focus</div>
+          <div id="exs-c2c"></div>
+          <div class="slbl tri-label">Triceps — Strength & Low Reps</div>
+          <div id="exs-c2t"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABS & CORE -->
+    <div class="wcard">
+      <div class="wheader" data-target="cr">
+        <div class="wbar" style="background:var(--core)"></div>
+        <div>
+          <div class="day-label">Friday · Phase 1</div>
+          <div class="workout-name">Abs & Core</div>
+          <div class="workout-focus" style="color:var(--core-l)">Functional Strength · Stability · Anti-Rotation</div>
+        </div>
+        <div class="wheader-meta">
+          <div><div class="sv">3</div><div class="sl">Sets</div></div>
+          <div><div class="sv">Mix</div><div class="sl">Reps</div></div>
+        </div>
+      </div>
+      <div id="cr" class="wbody">
+        <div class="ex-section">
+          <div class="slbl">Stability</div>
+          <div id="exs-crs"></div>
+          <div class="slbl">Anti-Rotation & Obliques</div>
+          <div id="exs-cra"></div>
+          <div class="slbl">Flexion</div>
+          <div id="exs-crf"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end workouts page -->
+
+  <!-- ── PROGRESS PAGE ── -->
+  <div id="page-progress" class="page">
+
+    <!-- BODY WEIGHT LOG -->
+    <div class="bw-section">
+      <div class="bw-header">
+        <span class="lbl" style="margin:0">Body Weight</span>
+        <div class="unit-toggle">
+          <button class="unit-btn active" data-unit="kg">kg</button>
+          <button class="unit-btn" data-unit="lbs">lbs</button>
+        </div>
+      </div>
+
+      <div class="log-inputs bw-inputs">
+        <div class="inp-group">
+          <label id="bw-unit-label">Weight (kg)</label>
+          <input type="number" id="bw-weight" placeholder="e.g. 80" min="0" step="0.1" />
+        </div>
+        <div class="inp-group">
+          <label>Date</label>
+          <input type="date" id="bw-date" />
+        </div>
+        <button class="log-btn" id="bw-log-btn">LOG</button>
+      </div>
+
+      <div id="bw-graph"></div>
+      <div id="bw-history" class="bw-history"></div>
+    </div>
+
+    <span class="lbl">Personal Records</span>
+    <div id="pr-display" class="pr-list">
+      <div class="empty-msg">Log some workouts to see your records here</div>
+    </div>
+    <div style="margin-top:20px">
+      <span class="lbl">Recent Activity</span>
+      <div id="recent-activity" class="pr-list">
+        <div class="empty-msg">No activity yet</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HISTORY PAGE ── -->
+  <div id="page-history" class="page">
+    <div class="history-header">
+      <span class="lbl" style="margin:0">All Logged Sets</span>
+      <button id="clearAllBtn" class="clear-btn">Clear All</button>
+    </div>
+    <div id="full-history"></div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
+</body>
+</html>
