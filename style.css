@@ -388,7 +388,7 @@ input, select, button { font-family: 'DM Sans', sans-serif; }
   border: 1px solid var(--border);
   border-radius: 3px;
   color: var(--light);
-  padding: 8px 30px;
+  padding: 8px 8px;
   font-size: 14px;
 }
 
